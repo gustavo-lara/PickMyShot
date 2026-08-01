@@ -13,7 +13,29 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3333;
 
-app.use(cors());
+const envOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+  : [];
+
+const allowedOrigins = [
+  ...envOrigins,
+  'http://localhost:5173',
+].filter(Boolean).map(url => url.replace(/\/$/, ''));
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const cleanOrigin = origin.replace(/\/$/, '');
+    const isAllowed = allowedOrigins.includes(cleanOrigin) || 
+                      /^https:\/\/pick-?my-?shot.*\.vercel\.app$/.test(cleanOrigin);
+    if (isAllowed) {
+      return callback(null, true);
+    }
+    return callback(new Error('Acesso bloqueado por CORS'));
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -28,6 +50,15 @@ app.get('/', (req, res) => {
 app.get('/health', (req, res) => {
   return res.json({ status: 'ok', service: 'PickMyShot API', timestamp: new Date().toISOString() });
 });
+
+app.use((err, req, res, next) => {
+  if (err.message === 'Acesso bloqueado por CORS') {
+    return res.status(403).json({ error: 'Origem não permitida' });
+  }
+  console.error(err);
+  return res.status(500).json({ error: 'Erro interno do servidor' });
+});
+
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   app.listen(PORT, () => {
