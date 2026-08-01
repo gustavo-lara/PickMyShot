@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import galeriaRoutes from './routes/galeriaRoutes.js';
 import fotoRoutes from './routes/fotoRoutes.js';
+import selecaoRoutes from './routes/selecaoRoutes.js';
 
 import { fileURLToPath } from 'url';
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/galerias', galeriaRoutes);
 app.use('/api', fotoRoutes);
+app.use('/api', selecaoRoutes);
 
 app.get('/', (req, res) => {
   return res.json({ message: 'PickMyShot API - Server Running' });
