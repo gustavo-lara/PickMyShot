@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Plus, Copy, Trash2, Upload, ArrowLeft, Check, LogOut, Image as ImageIcon, Heart } from 'lucide-react';
+import { Camera, Plus, Copy, Trash2, Upload, ArrowLeft, Check, LogOut, Image as ImageIcon, Heart, Settings } from 'lucide-react';
 import { api } from '../services/api';
 
 export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
@@ -9,16 +9,52 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
   const [galeriaFotos, setGaleriaFotos] = useState([]);
   const [activeTab, setActiveTab] = useState('todas');
 
+  const [currentUser, setCurrentUser] = useState(user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [novoNome, setNovoNome] = useState('');
   const [creating, setCreating] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [studioName, setStudioName] = useState(user?.nome || '');
+  const [savingSettings, setSavingSettings] = useState(false);
 
   const [toastMsg, setToastMsg] = useState('');
 
   const showToast = (msg) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(''), 3000);
+  };
+
+  useEffect(() => {
+    if (user?.nome) setStudioName(user.nome);
+    setCurrentUser(user);
+  }, [user]);
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    if (!studioName.trim()) return;
+
+    setSavingSettings(true);
+    try {
+      const res = await api.put('/api/auth/me', { nome: studioName.trim() });
+      const updatedUser = res.data.user;
+      setCurrentUser(updatedUser);
+      localStorage.setItem('@pickmyshot:user', JSON.stringify(updatedUser));
+      showToast('Nome do estúdio atualizado com sucesso!');
+      setIsSettingsOpen(false);
+    } catch (err) {
+      console.error('Erro ao atualizar perfil:', err);
+      if (err.response?.status === 401) {
+        alert('Sua sessão expirou. Por favor, faça login novamente.');
+        onLogout();
+        return;
+      }
+      const msg = err.response?.data?.details?.[0] || err.response?.data?.error || err.response?.data?.details || err.message || 'Falha ao atualizar nome do estúdio.';
+      alert(`Falha ao atualizar nome: ${msg}`);
+    } finally {
+      setSavingSettings(false);
+    }
   };
 
   useEffect(() => {
@@ -164,45 +200,86 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
         </div>
       )}
 
-      <header className="header-responsive" style={{
+      <header style={{
         borderBottom: '1px solid var(--color-warm-grey-light)',
-        padding: '1rem 1.5rem',
-        backgroundColor: '#FFFFFF'
+        padding: '0.85rem 1.5rem',
+        backgroundColor: '#FFFFFF',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-          {selectedGaleria && (
-            <button
-              onClick={() => setSelectedGaleria(null)}
-              className="btn-outline"
-              style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem', width: 'auto', display: 'inline-flex' }}
-            >
-              <ArrowLeft size={16} /> Voltar
-            </button>
-          )}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ backgroundColor: '#1A1815', color: '#F7F5F0', padding: '8px', borderRadius: '4px', flexShrink: 0 }}>
-              <Camera size={20} />
-            </div>
-            <div>
-              <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', fontWeight: 700, lineHeight: 1.2, display: 'block' }}>
-                {user?.nome || 'Estúdio Fotográfico'}
-              </span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', display: 'block', color: 'var(--color-warm-grey)', marginTop: '2px' }}>
-                PAINEL DO FOTÓGRAFO
-              </span>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '0.75rem',
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', minWidth: 0 }}>
+            {selectedGaleria && (
+              <button
+                onClick={() => setSelectedGaleria(null)}
+                className="btn-outline"
+                style={{ padding: '0.45rem 0.75rem', fontSize: '0.85rem', flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              >
+                <ArrowLeft size={16} /> <span className="btn-text-mobile-hide">Voltar</span>
+              </button>
+            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', minWidth: 0 }}>
+              <div style={{ backgroundColor: '#1A1815', color: '#F7F5F0', padding: '8px', borderRadius: '4px', flexShrink: 0 }}>
+                <Camera size={18} />
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <span style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: 'block'
+                }}>
+                  {currentUser?.nome || 'Estúdio Fotográfico'}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', display: 'block', color: 'var(--color-warm-grey)', marginTop: '2px' }}>
+                  PAINEL DO FOTÓGRAFO
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="header-actions-responsive">
-          {!selectedGaleria && (
-            <button onClick={() => setIsModalOpen(true)} className="btn-mark">
-              <Plus size={18} /> Nova Galeria
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0 }}>
+            {!selectedGaleria && (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="btn-mark"
+                style={{ padding: '0.5rem 0.85rem', fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+              >
+                <Plus size={16} /> <span className="btn-text-mobile-hide">Nova Galeria</span>
+              </button>
+            )}
+            <button
+              onClick={() => {
+                setStudioName(currentUser?.nome || '');
+                setIsSettingsOpen(true);
+              }}
+              className="btn-outline"
+              style={{ padding: '0.5rem 0.65rem', fontSize: '0.85rem' }}
+              title="Configurações do Estúdio"
+            >
+              <Settings size={16} />
             </button>
-          )}
-          <button onClick={onLogout} className="btn-outline" title="Sair do Sistema">
-            <LogOut size={16} /> Sair
-          </button>
+            <button
+              onClick={onLogout}
+              className="btn-outline"
+              style={{ padding: '0.5rem 0.65rem', fontSize: '0.85rem' }}
+              title="Sair do Sistema"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -520,6 +597,65 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
                   style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}
                 >
                   {creating ? 'Criando...' : 'Criar Galeria'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Configurações do Estúdio */}
+      {isSettingsOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(26, 24, 21, 0.75)', backdropFilter: 'blur(4px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem'
+        }}>
+          <div style={{
+            backgroundColor: '#F7F5F0', border: '1px solid #8A8578', borderRadius: '4px',
+            width: '100%', maxWidth: '420px', padding: '2rem'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+              <Settings size={20} color="var(--color-mark-red)" />
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', margin: 0 }}>
+                Configurações do Estúdio
+              </h3>
+            </div>
+
+            <form onSubmit={handleUpdateProfile}>
+              <div style={{ marginBottom: '1.25rem' }}>
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.4rem' }}>
+                  Nome do Fotógrafo / Nome do Estúdio
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Ex: Studio Gustavo Lara"
+                  value={studioName}
+                  onChange={(e) => setStudioName(e.target.value)}
+                  style={{
+                    width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #8A8578',
+                    fontFamily: 'var(--font-sans)', fontSize: '0.9rem', backgroundColor: '#FFFFFF'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
+                <button
+                  type="button"
+                  onClick={() => setIsSettingsOpen(false)}
+                  className="btn-outline"
+                  style={{ padding: '0.6rem 1rem', fontSize: '0.85rem' }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingSettings}
+                  className="btn-mark"
+                  style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}
+                >
+                  {savingSettings ? 'Salvando...' : 'Salvar Alterações'}
                 </button>
               </div>
             </form>

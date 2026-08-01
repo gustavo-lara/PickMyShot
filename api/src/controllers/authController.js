@@ -4,7 +4,8 @@ import {
   findFotografoByEmail,
   findFotografoById,
   createFotografo,
-  verifyPassword
+  verifyPassword,
+  updateFotografoNome
 } from '../services/fotografoService.js';
 
 export const register = async (req, res) => {
@@ -99,5 +100,27 @@ export const me = async (req, res) => {
   } catch (error) {
     console.error('Erro ao buscar dados do fotógrafo logado:', error);
     return res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { nome } = req.body;
+    if (!nome || typeof nome !== 'string' || nome.trim().length < 2) {
+      return res.status(400).json({ error: 'O nome do estúdio deve conter pelo menos 2 caracteres' });
+    }
+
+    const updatedUser = await updateFotografoNome(req.user.id, nome.trim());
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'Fotógrafo não encontrado' });
+    }
+
+    return res.status(200).json({
+      message: 'Nome do estúdio atualizado com sucesso',
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar nome do fotógrafo:', error);
+    return res.status(500).json({ error: 'Erro interno ao atualizar perfil' });
   }
 };

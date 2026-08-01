@@ -34,3 +34,14 @@ export const createFotografo = async ({ nome, email, senha }) => {
 export const verifyPassword = async (senha, senhaHash) => {
   return await bcrypt.compare(senha, senhaHash);
 };
+
+export const updateFotografoNome = async (id, nome) => {
+  const result = await query(
+    `UPDATE fotografos
+     SET nome = $1
+     WHERE id = $2
+     RETURNING id, nome, email, created_at;`,
+    [nome, id]
+  );
+  return result.rows[0] || null;
+};
