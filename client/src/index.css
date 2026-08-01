@@ -198,8 +198,6 @@ h1, h2, h3, .heading-serif {
   .btn-primary, .btn-mark, .btn-outline {
     padding: 0.7rem 1.2rem;
     font-size: 0.85rem;
-    width: 100%;
-    justify-content: center;
   }
 
   .contact-frame {
@@ -219,14 +217,10 @@ h1, h2, h3, .heading-serif {
     gap: 0.85rem;
   }
 
-  .header-responsive > div {
-    justify-content: space-between;
-    width: 100%;
-  }
-
   .header-actions-responsive {
     width: 100%;
     gap: 0.5rem;
+    display: flex;
   }
 
   .header-actions-responsive > button {

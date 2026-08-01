@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { X, Camera, ArrowRight, Lock, Mail, User } from 'lucide-react';
+import { X, Camera, ArrowRight, Lock, Mail, User, Eye, EyeOff } from 'lucide-react';
 import { api } from '../services/api';
 
 export function AuthModal({ isOpen, onClose, onSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     nome: '',
@@ -108,9 +109,6 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.75rem', color: '#1A1815', marginBottom: '0.25rem' }}>
             {isLogin ? 'Acessar Painel do Fotógrafo' : 'Criar Conta de Fotógrafo'}
           </h2>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#8A8578' }}>
-            {isLogin ? 'CONTATO SHEET — LOGIN' : 'REGISTRO DE NOVO ESTÚDIO'}
-          </p>
         </div>
 
         {/* Alternador Login / Cadastro */}
@@ -190,7 +188,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
                   type="text"
                   name="nome"
                   required
-                  placeholder="Ex: Studio Mariana Silva"
+                  placeholder="Seu nome ou nome do estúdio"
                   value={formData.nome}
                   onChange={handleChange}
                   style={{
@@ -242,7 +240,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
             <div style={{ position: 'relative' }}>
               <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#8A8578' }} />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="senha"
                 required
                 placeholder="••••••••"
@@ -250,7 +248,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
                 onChange={handleChange}
                 style={{
                   width: '100%',
-                  padding: '0.75rem 0.75rem 0.75rem 2.5rem',
+                  padding: '0.75rem 2.5rem 0.75rem 2.5rem',
                   borderRadius: '4px',
                   border: '1px solid #8A8578',
                   backgroundColor: '#FFFFFF',
@@ -259,6 +257,26 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
                   color: '#1A1815'
                 }}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: '#8A8578',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 0
+                }}
+                title={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 

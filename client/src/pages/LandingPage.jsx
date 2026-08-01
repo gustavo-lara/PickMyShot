@@ -264,7 +264,7 @@ export function LandingPage({ onLoginSuccess }) {
                 borderTop: '1px dashed var(--color-warm-grey-light)',
                 paddingTop: '0.85rem'
               }}>
-                ✓ Suporte a múltiplos arquivos até 25MB cada<br />
+                ✓ Suporte a múltiplos arquivos até 25MB<br />
                 ✓ Armazenamento otimizado na nuvem
               </div>
             </div>
@@ -299,7 +299,7 @@ export function LandingPage({ onLoginSuccess }) {
                 paddingTop: '0.85rem'
               }}>
                 ✓ Acesso com 1 clique pelo navegador<br />
-                ✓ Zero atrito ou cadastro para o cliente
+                ✓ Zero atrito para o cliente
               </div>
             </div>
 
@@ -332,8 +332,8 @@ export function LandingPage({ onLoginSuccess }) {
                 borderTop: '1px dashed var(--color-warm-grey-light)',
                 paddingTop: '0.85rem'
               }}>
-                ✓ Traço vermelho interativo de aprovação<br />
-                ✓ Relatório em tempo real pronto para edição
+                ✓ Traço vermelho de aprovação<br />
+                ✓ Relatório em tempo real
               </div>
             </div>
           </div>
