@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import galeriaRoutes from './routes/galeriaRoutes.js';
+import fotoRoutes from './routes/fotoRoutes.js';
 
 import { fileURLToPath } from 'url';
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/galerias', galeriaRoutes);
+app.use('/api', fotoRoutes);
 
 app.get('/', (req, res) => {
   return res.json({ message: 'PickMyShot API - Server Running' });
