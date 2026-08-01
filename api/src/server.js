@@ -19,5 +19,5 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 PickMyShot API rodando na porta ${PORT}`);
+  console.log(`PickMyShot API rodando na porta ${PORT}`);
 });
