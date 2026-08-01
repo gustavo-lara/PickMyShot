@@ -115,16 +115,16 @@ export function PublicGallery({ slug, onBackToLanding }) {
         position: 'sticky', top: 0, zIndex: 100,
         backgroundColor: '#FFFFFF',
         borderBottom: '1px solid var(--color-warm-grey-light)',
-        padding: '1rem 2rem',
+        padding: '0.75rem 1rem',
         boxShadow: 'var(--shadow-paper)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
           <div style={{ backgroundColor: 'var(--color-ink)', color: '#F7F5F0', padding: '6px', borderRadius: '4px' }}>
             <Camera size={18} />
           </div>
           <div>
-            <span className="frame-tag" style={{ fontSize: '0.65rem' }}>GALERIA DE SELEÇÃO</span>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', margin: 0, lineHeight: 1.2 }}>
+            <span className="frame-tag" style={{ fontSize: '0.6rem' }}>GALERIA DE SELEÇÃO</span>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', margin: 0, lineHeight: 1.2 }}>
               {galeria.nome}
             </h2>
           </div>
@@ -133,17 +133,17 @@ export function PublicGallery({ slug, onBackToLanding }) {
         <div className="header-actions-responsive">
           <div style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: '0.85rem',
+            fontSize: '0.75rem',
             backgroundColor: 'var(--color-paper-muted)',
-            padding: '0.4rem 0.8rem',
+            padding: '0.35rem 0.6rem',
             borderRadius: '4px',
             border: '1px solid var(--color-warm-grey-light)',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.4rem'
+            gap: '0.35rem'
           }}>
-            <Heart size={16} color="var(--color-mark-red)" fill={selectedCount > 0 ? "var(--color-mark-red)" : "none"} />
-            <strong>{selectedCount}</strong> / {fotos.length} SELECIONADAS
+            <Heart size={14} color="var(--color-mark-red)" fill={selectedCount > 0 ? "var(--color-mark-red)" : "none"} />
+            <strong>{selectedCount}</strong> / {fotos.length} <span className="hide-on-xs">SELECIONADAS</span>
           </div>
 
           <button
@@ -153,16 +153,16 @@ export function PublicGallery({ slug, onBackToLanding }) {
             style={{
               opacity: selectedCount === 0 ? 0.5 : 1,
               cursor: selectedCount === 0 ? 'not-allowed' : 'pointer',
-              padding: '0.6rem 1.2rem',
-              fontSize: '0.85rem'
+              padding: '0.5rem 0.85rem',
+              fontSize: '0.8rem'
             }}
           >
-            <Send size={16} /> Confirmar Seleção
+            <Send size={15} /> Confirmar <span className="hide-on-xs">Seleção</span>
           </button>
         </div>
       </header>
 
-      <main style={{ padding: '2.5rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <main style={{ padding: '1.5rem 1rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--color-warm-grey)' }}>
             CLIQUE NO ÍCONE DE CORAÇÃO OU NA FOTO PARA MARCAR SUA ESCOLHA
@@ -298,37 +298,56 @@ export function PublicGallery({ slug, onBackToLanding }) {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '1.5rem'
+              marginTop: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: '0.65rem',
+              width: '100%',
+              maxWidth: '500px'
             }}
           >
             <button
               onClick={handlePrevPhoto}
               disabled={activePhotoIndex === 0}
               className="btn-outline"
-              style={{ color: '#F7F5F0', borderColor: '#8A8578', opacity: activePhotoIndex === 0 ? 0.3 : 1 }}
+              style={{
+                color: '#F7F5F0',
+                borderColor: '#8A8578',
+                opacity: activePhotoIndex === 0 ? 0.3 : 1,
+                padding: '0.55rem 0.85rem',
+                fontSize: '0.8rem'
+              }}
             >
-              <ArrowLeft size={18} /> Anterior
+              <ArrowLeft size={16} /> <span className="btn-text-mobile-hide">Anterior</span>
             </button>
 
             <button
               onClick={(e) => handleToggleSelecao(fotos[activePhotoIndex].id, e)}
               className="btn-mark"
-              style={{ padding: '0.8rem 1.6rem' }}
+              style={{ padding: '0.65rem 1.1rem', fontSize: '0.85rem' }}
             >
               <Heart
-                size={18}
+                size={16}
                 fill={fotos[activePhotoIndex].selecionada ? "#FFFFFF" : "none"}
               />
-              {fotos[activePhotoIndex].selecionada ? 'DESMARCAR FOTO' : 'SELECIONAR ESTA FOTO'}
+              {fotos[activePhotoIndex].selecionada ? 'DESMARCAR' : 'SELECIONAR'}
             </button>
 
             <button
               onClick={handleNextPhoto}
               disabled={activePhotoIndex === fotos.length - 1}
               className="btn-outline"
-              style={{ color: '#F7F5F0', borderColor: '#8A8578', opacity: activePhotoIndex === fotos.length - 1 ? 0.3 : 1 }}
+              style={{
+                color: '#F7F5F0',
+                borderColor: '#8A8578',
+                opacity: activePhotoIndex === fotos.length - 1 ? 0.3 : 1,
+                padding: '0.55rem 0.85rem',
+                fontSize: '0.8rem'
+              }}
             >
-              Próxima <ArrowRight size={18} />
+              <span className="btn-text-mobile-hide">Próxima</span> <ArrowRight size={16} />
             </button>
           </div>
         </div>

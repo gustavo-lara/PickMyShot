@@ -4,6 +4,12 @@ import { AuthModal } from '../components/AuthModal';
 
 export function LandingPage({ onLoginSuccess }) {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState('login');
+
+  const openAuth = (mode = 'login') => {
+    setAuthMode(mode);
+    setIsAuthOpen(true);
+  };
 
   // Estado da Contact Sheet interativa na Hero (Marcar/Desmarcar frames)
   const [selectedFrames, setSelectedFrames] = useState([1, 3]);
@@ -58,7 +64,7 @@ export function LandingPage({ onLoginSuccess }) {
 
         <div className="header-actions-responsive">
           <button
-            onClick={() => setIsAuthOpen(true)}
+            onClick={() => openAuth('login')}
             className="btn-outline"
             style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}
           >
@@ -66,7 +72,7 @@ export function LandingPage({ onLoginSuccess }) {
           </button>
 
           <button
-            onClick={() => setIsAuthOpen(true)}
+            onClick={() => openAuth('register')}
             className="btn-primary"
             style={{ padding: '0.65rem 1.4rem', fontSize: '0.85rem' }}
           >
@@ -77,31 +83,31 @@ export function LandingPage({ onLoginSuccess }) {
       </header>
 
       {/* Hero Section */}
-      <section style={{ padding: '4rem 2rem 5rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 3.5rem' }}>
+      <section style={{ padding: '2.5rem 1rem 3.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem' }}>
           <h1 style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.5rem, 5vw, 4.2rem)',
+            fontSize: 'clamp(1.75rem, 6vw, 4.2rem)',
             fontWeight: 600,
-            lineHeight: 1.1,
-            marginBottom: '1.5rem',
+            lineHeight: 1.15,
+            marginBottom: '1.25rem',
             color: 'var(--color-ink)'
           }}>
             Seus ensaios merecem uma <em style={{ fontStyle: 'italic', color: 'var(--color-mark-red)' }}>aprovação à altura</em>.
           </h1>
 
-          <p style={{ fontSize: '1.15rem', color: '#3D3935', maxWidth: '680px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '1.05rem', color: '#3D3935', maxWidth: '680px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
             Compartilhe galerias com seus clientes através de um link único sem pedir cadastros ou senhas. O cliente escolhe as fotos direto pelo celular e você acompanha o resultado no seu painel.
           </p>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setIsAuthOpen(true)}
+              onClick={() => openAuth('register')}
               className="btn-mark"
-              style={{ fontSize: '1rem', padding: '1rem 2rem' }}
+              style={{ fontSize: '0.95rem', padding: '0.85rem 1.6rem' }}
             >
               Começar Agora sem Custo
-              <ArrowRight size={20} />
+              <ArrowRight size={18} />
             </button>
           </div>
         </div>
@@ -111,7 +117,7 @@ export function LandingPage({ onLoginSuccess }) {
           backgroundColor: '#FFFFFF',
           border: '1px solid var(--color-ink)',
           borderRadius: '4px',
-          padding: '2rem 1.5rem',
+          padding: '1.5rem 1rem',
           boxShadow: 'var(--shadow-card)',
           position: 'relative'
         }}>
@@ -119,28 +125,30 @@ export function LandingPage({ onLoginSuccess }) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
             borderBottom: '1px solid var(--color-warm-grey-light)',
             paddingBottom: '1rem',
-            marginBottom: '1.5rem'
+            marginBottom: '1.25rem'
           }}>
             <div>
               <span className="frame-tag" style={{ color: 'var(--color-mark-red)', fontWeight: 700 }}>
                 ● DEMONSTRAÇÃO INTERATIVA
               </span>
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', marginTop: '0.2rem' }}>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', marginTop: '0.2rem' }}>
                 Folha de Contato #35MM — Ensaio Editorial
               </h3>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--color-warm-grey)' }}>
-              CLIQUE NAS FOTOS PARA MARCAR COM CANETA VERMELHA
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-warm-grey)' }}>
+              CLIQUE NAS FOTOS PARA MARCAR
             </div>
           </div>
 
           {/* Grid estilo Contact Sheet de Película */}
-          <div style={{
+          <div className="gallery-grid-responsive" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1.25rem'
           }}>
             {samplePhotos.map((photo) => {
               const isSelected = selectedFrames.includes(photo.id);
@@ -221,25 +229,25 @@ export function LandingPage({ onLoginSuccess }) {
         backgroundColor: '#FFFFFF',
         borderTop: '1px solid var(--color-warm-grey-light)',
         borderBottom: '1px solid var(--color-warm-grey-light)',
-        padding: '5rem 2rem'
+        padding: '3rem 1rem'
       }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="frame-tag" style={{ color: 'var(--color-mark-red)' }}>O FLUXO DE TRABALHO</span>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.6rem', marginTop: '0.4rem', color: 'var(--color-ink)' }}>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.75rem, 5vw, 2.6rem)', marginTop: '0.4rem', color: 'var(--color-ink)' }}>
               Como o PickMyShot simplifica sua entrega
             </h2>
-            <p style={{ color: 'var(--color-warm-grey)', fontSize: '1.05rem', maxWidth: '600px', margin: '0.75rem auto 0' }}>
+            <p style={{ color: 'var(--color-warm-grey)', fontSize: '1rem', maxWidth: '600px', margin: '0.75rem auto 0' }}>
               Entenda como transformar o processo de seleção de fotos em uma experiência rápida para o seu cliente e organizada para o seu estúdio.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
             {/* Passo 1 */}
             <div style={{
               backgroundColor: 'var(--color-paper)',
               border: '1px solid var(--color-warm-grey-light)',
-              padding: '2.25rem 2rem',
+              padding: '1.5rem 1.25rem',
               borderRadius: '4px',
               display: 'flex',
               flexDirection: 'column',
@@ -249,10 +257,10 @@ export function LandingPage({ onLoginSuccess }) {
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-mark-red)' }}>
                   #001
                 </span>
-                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.45rem', margin: '0.75rem 0 0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', margin: '0.75rem 0 0.5rem' }}>
                   Upload Ágil do Ensaio
                 </h3>
-                <p style={{ color: 'var(--color-ink-muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                <p style={{ color: 'var(--color-ink-muted)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
                   Crie a galeria do cliente em segundos e faça o upload em massa das fotos do ensaio. O sistema organiza tudo automaticamente em molduras numeradas no formato de folha de contato 35mm.
                 </p>
               </div>
@@ -273,7 +281,7 @@ export function LandingPage({ onLoginSuccess }) {
             <div style={{
               backgroundColor: 'var(--color-paper)',
               border: '1px solid var(--color-warm-grey-light)',
-              padding: '2.25rem 2rem',
+              padding: '1.5rem 1.25rem',
               borderRadius: '4px',
               display: 'flex',
               flexDirection: 'column',
@@ -283,10 +291,10 @@ export function LandingPage({ onLoginSuccess }) {
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-mark-red)' }}>
                   #002
                 </span>
-                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.45rem', margin: '0.75rem 0 0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', margin: '0.75rem 0 0.5rem' }}>
                   Link Único sem Login
                 </h3>
-                <p style={{ color: 'var(--color-ink-muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                <p style={{ color: 'var(--color-ink-muted)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
                   Gere um link público exclusivo com o slug do ensaio e envie no WhatsApp do cliente. Ele acessa a galeria instantaneamente no celular ou PC sem precisar criar conta ou memorizar senhas.
                 </p>
               </div>
@@ -307,7 +315,7 @@ export function LandingPage({ onLoginSuccess }) {
             <div style={{
               backgroundColor: 'var(--color-paper)',
               border: '1px solid var(--color-warm-grey-light)',
-              padding: '2.25rem 2rem',
+              padding: '1.5rem 1.25rem',
               borderRadius: '4px',
               display: 'flex',
               flexDirection: 'column',
@@ -317,10 +325,10 @@ export function LandingPage({ onLoginSuccess }) {
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-mark-red)' }}>
                   #003
                 </span>
-                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.45rem', margin: '0.75rem 0 0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', margin: '0.75rem 0 0.5rem' }}>
                   Seleção de Fotos
                 </h3>
-                <p style={{ color: 'var(--color-ink-muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                <p style={{ color: 'var(--color-ink-muted)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>
                   O cliente marca as fotos preferidas visualizando o traço vermelho de caneta sobre as molduras. No seu painel, você acompanha a contagem em tempo real e acessa a lista exata para tratamento.
                 </p>
               </div>
@@ -340,14 +348,14 @@ export function LandingPage({ onLoginSuccess }) {
 
           {/* Destaques adicionais / Por que usar */}
           <div style={{
-            marginTop: '4rem',
+            marginTop: '2.5rem',
             backgroundColor: 'var(--color-paper)',
             border: '1px solid var(--color-warm-grey-light)',
-            padding: '2.5rem 2rem',
+            padding: '1.75rem 1.25rem',
             borderRadius: '4px',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '2rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1.5rem'
           }}>
             <div>
               <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', marginBottom: '0.4rem', color: 'var(--color-ink)' }}>
@@ -410,6 +418,7 @@ export function LandingPage({ onLoginSuccess }) {
       {/* Modal de Autenticação */}
       <AuthModal
         isOpen={isAuthOpen}
+        initialMode={authMode}
         onClose={() => setIsAuthOpen(false)}
         onSuccess={(user) => {
           if (onLoginSuccess) onLoginSuccess(user);

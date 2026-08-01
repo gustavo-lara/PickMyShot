@@ -36,6 +36,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img, svg {
+  max-width: 100%;
 }
 
 .font-serif {
@@ -55,6 +61,7 @@ h1, h2, h3, .heading-serif {
   font-weight: 600;
   color: var(--color-ink);
   letter-spacing: -0.02em;
+  word-break: break-word;
 }
 
 .frame-tag {
@@ -108,6 +115,8 @@ h1, h2, h3, .heading-serif {
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-primary:hover {
@@ -130,6 +139,8 @@ h1, h2, h3, .heading-serif {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-mark:hover {
@@ -152,6 +163,8 @@ h1, h2, h3, .heading-serif {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-outline:hover {
@@ -165,6 +178,7 @@ h1, h2, h3, .heading-serif {
   position: relative;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 2px;
+  max-width: 100%;
 }
 
 .contact-frame:hover {
@@ -218,14 +232,45 @@ h1, h2, h3, .heading-serif {
 
 @media (max-width: 480px) {
   header {
-    padding: 0.75rem 1rem !important;
+    padding: 0.75rem 0.85rem !important;
   }
 
   main {
-    padding: 1.5rem 1rem !important;
+    padding: 1.25rem 0.85rem !important;
   }
 
   .modal-container {
     padding: 1.5rem 1rem !important;
   }
+
+  .header-responsive {
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+  }
+
+  .header-actions-responsive {
+    gap: 0.5rem !important;
+    flex-wrap: wrap;
+  }
 }
+
+@media (max-width: 380px) {
+  html, body {
+    font-size: 14px;
+  }
+
+  .gallery-grid-responsive {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .btn-primary, .btn-mark, .btn-outline {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .hide-on-xs {
+    display: none !important;
+  }
+}
+

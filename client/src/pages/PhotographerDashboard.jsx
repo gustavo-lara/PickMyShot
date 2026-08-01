@@ -283,12 +283,12 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
         </div>
       </header>
 
-      <main style={{ padding: '2.5rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <main style={{ padding: '1.5rem 1rem', maxWidth: '1200px', margin: '0 auto' }}>
         {!selectedGaleria ? (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.5rem' }}>
               <div>
-                <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', marginTop: '0.2rem' }}>
+                <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', marginTop: '0.2rem' }}>
                   Seus Ensaios Fotográficos
                 </h1>
               </div>
@@ -301,16 +301,16 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
             ) : galerias.length === 0 ? (
               <div style={{
                 textAlign: 'center',
-                padding: '4rem 2rem',
+                padding: '3rem 1rem',
                 backgroundColor: '#FFFFFF',
                 border: '1px dashed var(--color-warm-grey-light)',
                 borderRadius: '4px'
               }}>
                 <ImageIcon size={48} color="var(--color-warm-grey)" style={{ marginBottom: '1rem' }} />
-                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', marginBottom: '0.5rem' }}>
                   Nenhuma galeria criada ainda
                 </h3>
-                <p style={{ color: 'var(--color-warm-grey)', marginBottom: '1.5rem' }}>
+                <p style={{ color: 'var(--color-warm-grey)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
                   Clique no botão abaixo para criar sua primeira galeria de ensaio.
                 </p>
                 <button onClick={() => setIsModalOpen(true)} className="btn-mark">
@@ -318,10 +318,10 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
                 </button>
               </div>
             ) : (
-              <div style={{
+              <div className="gallery-grid-responsive" style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                gap: '1.75rem'
+                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+                gap: '1.25rem'
               }}>
                 {galerias.map((g) => (
                   <div
@@ -391,18 +391,18 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
           </div>
         ) : (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
               <div>
                 <span className="frame-tag">GERENCIADOR DE GALERIA</span>
-                <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.4rem', marginTop: '0.2rem' }}>
+                <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.6rem, 5vw, 2.4rem)', marginTop: '0.2rem' }}>
                   {selectedGaleria.nome}
                 </h1>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--color-warm-grey)' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--color-warm-grey)', wordBreak: 'break-all' }}>
                   LINK PÚBLICO: {window.location.origin}/#galeria={selectedGaleria.link_publico}
                 </p>
               </div>
 
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => copyPublicLink(selectedGaleria.link_publico)}
                   className="btn-mark"
@@ -416,9 +416,9 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
               backgroundColor: '#FFFFFF',
               border: '2px dashed var(--color-warm-grey-light)',
               borderRadius: '4px',
-              padding: '2.5rem 1.5rem',
+              padding: '1.5rem 1rem',
               textAlign: 'center',
-              marginBottom: '2.5rem',
+              marginBottom: '1.75rem',
               position: 'relative'
             }}>
               <input
@@ -438,7 +438,7 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
                 }}
               />
               <Upload size={36} color={uploading ? 'var(--color-mark-red)' : 'var(--color-ink)'} style={{ marginBottom: '0.75rem' }} />
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', marginBottom: '0.25rem' }}>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', marginBottom: '0.25rem' }}>
                 {uploading ? 'Enviando fotos para a Galeria...' : 'Arraste ou clique para enviar fotos deste ensaio'}
               </h3>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-warm-grey)' }}>
@@ -446,16 +446,16 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', borderBottom: '1px solid var(--color-warm-grey-light)', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', borderBottom: '1px solid var(--color-warm-grey-light)', marginBottom: '1.25rem' }}>
               <button
                 onClick={() => setActiveTab('todas')}
                 style={{
-                  padding: '0.75rem 1rem',
+                  padding: '0.6rem 0.85rem',
                   border: 'none',
                   background: 'none',
                   fontFamily: 'var(--font-sans)',
                   fontWeight: 600,
-                  fontSize: '0.9rem',
+                  fontSize: '0.85rem',
                   cursor: 'pointer',
                   borderBottom: activeTab === 'todas' ? '2px solid #1A1815' : '2px solid transparent',
                   color: activeTab === 'todas' ? '#1A1815' : 'var(--color-warm-grey)'
@@ -466,12 +466,12 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
               <button
                 onClick={() => setActiveTab('selecionadas')}
                 style={{
-                  padding: '0.75rem 1rem',
+                  padding: '0.6rem 0.85rem',
                   border: 'none',
                   background: 'none',
                   fontFamily: 'var(--font-sans)',
                   fontWeight: 600,
-                  fontSize: '0.9rem',
+                  fontSize: '0.85rem',
                   cursor: 'pointer',
                   borderBottom: activeTab === 'selecionadas' ? '2px solid var(--color-mark-red)' : '2px solid transparent',
                   color: activeTab === 'selecionadas' ? 'var(--color-mark-red)' : 'var(--color-warm-grey)',
@@ -480,8 +480,8 @@ export function PhotographerDashboard({ user, onLogout, onNavigateToPublic }) {
                   gap: '0.4rem'
                 }}
               >
-                <Heart size={16} fill={activeTab === 'selecionadas' ? 'var(--color-mark-red)' : 'none'} />
-                Aprovadas pelo Cliente ({galeriaFotos.filter(f => f.selecionada).length})
+                <Heart size={15} fill={activeTab === 'selecionadas' ? 'var(--color-mark-red)' : 'none'} />
+                Aprovadas ({galeriaFotos.filter(f => f.selecionada).length})
               </button>
             </div>
 

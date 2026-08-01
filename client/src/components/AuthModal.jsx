@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Camera, ArrowRight, Lock, Mail, User, Eye, EyeOff } from 'lucide-react';
 import { api } from '../services/api';
 
-export function AuthModal({ isOpen, onClose, onSuccess }) {
-  const [isLogin, setIsLogin] = useState(true);
+export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'login' }) {
+  const [isLogin, setIsLogin] = useState(initialMode === 'login');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +13,13 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
     email: '',
     senha: ''
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsLogin(initialMode === 'login');
+      setError('');
+    }
+  }, [isOpen, initialMode]);
 
   if (!isOpen) return null;
 
@@ -70,7 +77,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }) {
         borderRadius: '6px',
         width: '100%',
         maxWidth: '440px',
-        padding: '2.5rem 2rem',
+        padding: '1.75rem 1.25rem',
         position: 'relative',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)'
       }}>
